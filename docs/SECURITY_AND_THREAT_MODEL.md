@@ -1,4 +1,3 @@
-```
 # KIND-ID Security and Threat Model
 
 ### Version 1.0.0  
@@ -163,3 +162,4 @@ Reports will be acknowledged within **72 hours**, and remediation status posted 
 
 © 2025 KIND-ID Project. MIT License.
 ```
+
