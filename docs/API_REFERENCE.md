@@ -48,7 +48,7 @@ Registers a new user descriptor.
   "device_id": "string"
 }
 
-Response
+**Response**
 
 {
   "status": "success",
