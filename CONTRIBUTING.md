@@ -143,7 +143,7 @@ All tests must pass before merging.
 If you discover a vulnerability:
 
 1. **Do not open a public issue.**
-2. Email `security@kind-id.org` with:
+2. Email `kinddit.j@gmail.com` with:
 
    * Description
    * Reproduction steps
@@ -163,3 +163,4 @@ Outstanding contributors may be invited to the **KIND-ID Governance Council** (s
 ---
 
 Thank you for strengthening the world’s most transparent authentication protocol.
+
