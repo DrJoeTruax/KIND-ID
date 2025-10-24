@@ -1,4 +1,4 @@
-﻿# KIND-ID API Reference
+# KIND-ID API Reference
 
 ### Version: v1.0.0  
 ### Updated: October 2025  
@@ -47,72 +47,85 @@ Registers a new user descriptor.
   "phrase": "string",
   "device_id": "string"
 }
+```
 
-Response
-
+**Response**
+```json
 {
   "status": "success",
   "descriptor_id": "UUID",
   "message": "Descriptor created successfully."
 }
+```
 
-POST /verify
-
+#### `POST /verify`
 Validates a user login attempt.
 
-Request
-
+**Request**
+```json
 {
   "username": "string",
   "phrase": "string"
 }
+```
 
-
-Response
-
+**Response**
+```json
 {
   "status": "verified",
   "confidence": 0.9992,
   "timestamp": "2025-10-24T00:00:00Z"
 }
+```
 
-GET /health
-
+#### `GET /health`
 Health check endpoint. Returns server operational metrics.
 
-Response
-
+**Response**
+```json
 {
   "status": "ok",
   "version": "1.0.0",
   "uptime": "48h"
 }
+```
 
-Error Codes
-Code	Meaning	Example
-400	Missing or invalid parameters	"Missing field: phrase"
-401	Unauthorized access	"Descriptor not verified"
-429	Rate limited	"Too many attempts"
-500	Internal error	"Unexpected exception"
-Webhook Integration
-Event	Description
-descriptor.created	Triggered when a new identity is registered.
-descriptor.verified	Triggered upon successful login validation.
-descriptor.failed	Triggered when verification fails.
+---
 
-Example payload:
+### Error Codes
 
+| Code | Meaning | Example |
+|------|----------|----------|
+| 400 | Missing or invalid parameters | "Missing field: phrase" |
+| 401 | Unauthorized access | "Descriptor not verified" |
+| 429 | Rate limited | "Too many attempts" |
+| 500 | Internal error | "Unexpected exception" |
+
+---
+
+### Webhook Integration
+
+| Event | Description |
+|--------|-------------|
+| `descriptor.created` | Triggered when a new identity is registered. |
+| `descriptor.verified` | Triggered upon successful login validation. |
+| `descriptor.failed` | Triggered when verification fails. |
+
+**Example Payload**
+```json
 {
   "event": "descriptor.verified",
   "user": "username",
   "timestamp": "2025-10-24T00:00:00Z",
   "confidence": 0.998
 }
+```
 
-Response Metadata
+---
 
+### Response Metadata
 All responses contain:
-
+```json
 {
   "meta": {
     "api_version": "1.0.0",
@@ -120,16 +133,19 @@ All responses contain:
     "request_id": "uuid"
   }
 }
+```
 
-Rate Limits
+---
 
-Default limit: 60 requests/minute per IP.
+### Rate Limits
+Default limit: **60 requests/minute per IP.**  
 Exceeded requests return HTTP 429.
 
-Changelog Reference
+---
 
-See CHANGELOG.md
- for updates.
+### Changelog Reference
+See [CHANGELOG.md](CHANGELOG.md) for updates.
+
+---
 
 © 2025 KIND-ID Project. MIT License.
-'@
