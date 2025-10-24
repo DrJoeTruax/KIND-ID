@@ -41,7 +41,7 @@ This Code of Conduct applies within all project spaces and when representing the
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting:
 ```
 
-[conduct@kind-id.org](mailto:conduct@kind-id.org)
+[kinddit.j@gmail.com](mailto:kinddit.j@gmail.com)
 
 ```
 
@@ -70,3 +70,4 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 ## Contact
 For questions or concerns:  
 📧 **kinddit.j@gmail.com**
+
