@@ -1,5 +1,3 @@
-I need all of this turned into raw file for github:
-
 ````
 # KIND-ID Installation Guide
 
@@ -204,3 +202,4 @@ Run your OS installer to configure PATH variables and dependencies automatically
 
 ```
 ```
+
