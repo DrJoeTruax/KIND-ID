@@ -133,10 +133,3 @@ See CHANGELOG.md
 
 © 2025 KIND-ID Project. MIT License.
 '@
-
-Set-Content -Path $docPath -Value $content -Encoding UTF8
-
-cd $base
-git add docs\API_REFERENCE.md
-git commit -m "docs: replace API_REFERENCE.md with full version" -m "Adds all endpoint, SDK, webhook, and error documentation for KIND-ID v1.0.0."
-git push -u origin main
