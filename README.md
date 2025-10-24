@@ -1,119 +1,147 @@
-# KIND-ID v1.0.0
+# KIND-ID v1.2 — “You Only Get One”
 
-### “Authentication that remembers who you are.”
-
----
-
-## 🧭 Table of Contents
-1. [Overview](#overview)
-2. [Quick Start](#quick-start)
-3. [Project Structure](#project-structure)
-4. [Cross-Linked Documentation](#cross-linked-documentation)
-5. [Philosophy & Goals](#philosophy--goals)
-6. [Community & Governance](#community--governance)
-7. [Security Summary](#security-summary)
-8. [License & Acknowledgments](#license--acknowledgments)
+### Passwordless Identity • One-Try Lockout • Deterministic Recovery
 
 ---
 
-## Overview
+## 🔍 Overview
 
-KIND-ID is a **human-centric authentication SDK and framework** built to
-replace passwords with phrase-based, cryptographically verified identity.
-
-It includes:
-
-* 🧩 **Python SDK** – Argon2id + HMAC authentication core  
-* 🌐 **FastAPI Server** – challenge-response verification service  
-* 🧠 **Chrome Extension** – deterministic password manager  
-* 🧪 **Certification Tests** + CI pipeline  
-* 🛡 **Threat Model** and Governance Charter  
-* 📚 **Full Documentation Suite** (this repository)
+KIND-ID is a **phrase-based authentication system** that replaces passwords with natural language identity.  
+It allows human imperfection at input (spelling or phonetic drift) but enforces **absolute lockout on failure**.  
+You get one verified attempt.  If the phrase or canonical form is wrong, the descriptor locks until valid recovery.
 
 ---
 
-## Quick Start
+## 🧩 Core Features
 
-### 1️⃣ Install
+| Capability | Description |
+|-------------|--------------|
+| **Multi-Truth Authentication (MTA)** | Users authenticate with personally meaningful phrases, not secrets they must remember perfectly. |
+| **Fuzzy Normalization** | Text is phonetic- and spelling-normalized before hashing (`rapidfuzz` + `metaphone`). “mi nam is steev” → “my name is steve.” |
+| **Cryptographic Binding** | Deterministic Argon2id key derivation: `K = Argon2id(device_id + salt + canonical_phrase + pepper)`. |
+| **One-Try Lockout** | On first failed verification, descriptor is marked *used* and *locked*—no retries. |
+| **Deterministic Recovery** | Recovery token (HMAC of descriptor + salt) unlocks and rotates salt/hash exactly once. |
+| **Device Binding** | Every descriptor is tied to a unique device identifier.  Copying a descriptor elsewhere invalidates it. |
+| **Auditable Flow** | Every verification, lock, or recovery is logged with immutable timestamps. |
 
-```bash
-git clone https://github.com/DrJoeTruax/KIND-ID.git
-cd KIND-ID
-pip install -e .
+---
+
+## ⚙️ Architecture
+
+```
+
+KIND-ID/
+├── kindid/                 # Core SDK (Argon2id + fuzzy normalization)
+│   ├── kindid.py
+│   ├── normalize.py
+│   └── utils/
+│
+├── server/                 # FastAPI reference backend
+│   ├── app.py              # /enroll, /verify, /recover endpoints
+│   ├── db/                 # sqlite or postgres state
+│   ├── config/             # server keys, pepper, logging
+│   └── tests/
+│
+├── docs/                   # Security & governance suite
+├── installers/             # Windows/macOS/Linux setup scripts
+└── infra/                  # Docker/K8s/CI scaffolding (optional)
+
 ````
 
-### 2️⃣ Run Server
+---
+
+## 🚀 Quick Start
+
+### 1️⃣ Environment
+
+```bash
+git clone https://github.com/DrJoeTruax/KIND-ID
+cd KIND-ID
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+````
+
+### 2️⃣ Local Demo (SDK only)
+
+Train:
+
+```bash
+python kindid.py --train --text "My name is Steve" --device-id "DEVICE123" --output descriptor.json
+```
+
+Verify (fuzzy accepted):
+
+```bash
+python kindid.py --verify --text "mi nam is steev" --device-id "DEVICE123" --reference descriptor.json
+```
+
+If normalized text resolves to the same canonical form → verified.
+If not → descriptor locks permanently.
+
+---
+
+## 🖥️ FastAPI Service
+
+Run:
 
 ```bash
 uvicorn server.app:app --reload
 ```
 
-### 3️⃣ Try the Demo
+### API Endpoints
 
-Open `examples/signup.html` in a browser to generate your first descriptor and verify it with the FastAPI service.
+| Method | Path       | Description                        |
+| ------ | ---------- | ---------------------------------- |
+| `POST` | `/enroll`  | Create descriptor + recovery token |
+| `POST` | `/verify`  | Verify phrase; locks on failure    |
+| `POST` | `/recover` | Unlock using valid recovery token  |
 
----
-
-## Project Structure
-
-```
-kindid/             # Python SDK
-server/             # FastAPI service
-extension/          # Browser extension
-docs/               # Documentation suite
-tests/              # Unit tests
-.github/workflows/  # CI/CD pipeline
-installers/         # Platform installers + telemetry stubs
-```
+All endpoints enforce TLS 1.3, constant-time comparisons, and atomic state updates.
 
 ---
 
-## Cross-Linked Documentation
+## 🔒 Security Model
 
-* [API Reference](docs/API_REFERENCE.md)
-* [Installation Guide](docs/INSTALLATION_GUIDE.md)
-* [Security & Threat Model](docs/SECURITY_AND_THREAT_MODEL.md)
-* [Governance Charter](docs/GOVERNANCE_CHARTER.md)
-* [FAQ](docs/FAQ.md)
-* [Change Log](docs/CHANGELOG.md)
-* [Contributing Guide](CONTRIBUTING.md)
-* [Code of Conduct](CODE_OF_CONDUCT.md)
-* [License](LICENSE)
-
----
-
-## Philosophy & Goals
-
-* Humans first – security through understandable interaction.
-* Zero trust without zero humanity.
-* Transparency by default – all actions auditable and open-source.
-* Cross-platform and multi-language future (Go, JS, Rust bindings planned).
+| Layer             | Mechanism                                                |
+| ----------------- | -------------------------------------------------------- |
+| **Input**         | Canonicalization and phonetic normalization              |
+| **Derivation**    | Argon2id (time_cost=3, memory_cost=65536, parallelism=4) |
+| **Server Secret** | Pepper stored in Vault/HSM                               |
+| **Lock Policy**   | Single failed attempt → lock=true                        |
+| **Recovery**      | One-time HMAC token + device attestation                 |
+| **Transport**     | HTTPS (TLS 1.3, cert-pinned clients)                     |
+| **Auditing**      | Immutable logs for every event                           |
 
 ---
 
-## Community & Governance
+## 🧾 Recovery Workflow
 
-* Open source under MIT License.
-* Guided by the [Governance Charter](docs/GOVERNANCE_CHARTER.md).
-* Maintainer team elected by contributors.
-* All decisions and votes publicly logged.
-
----
-
-## Security Summary
-
-* Argon2id memory-hard key derivation.
-* Salt + device ID + phrase concatenation.
-* Challenge-response login flow.
-* Constant-time comparison (HMAC).
-* Encrypted descriptor storage (AES-256-GCM).
-* Rate limiting and nonce expiration.
-* Pen-test and bug-bounty program planned for v1.1.0.
+1. **At enrollment**, server issues a one-time recovery token (QR + string).
+2. **If locked**, user submits token + device ID to `/recover`.
+3. Server verifies token → rotates salt + hash → unlocks descriptor.
+4. Token is invalidated immediately.
+5. All actions logged for audit.
 
 ---
 
-## License & Acknowledgments
+## 🧠 Philosophy
 
-Released under the MIT License – see [LICENSE](LICENSE).
-Authored and maintained by **Dr. Joe Truax** and community contributors.
-Uses Argon2 (from libsodium / argon2-cffi), FastAPI, and standard cryptography libraries.
+*Security through understanding.*
+Humans forget, mistype, and speak imperfectly.  KIND-ID preserves that humanity while keeping the cryptography absolute.
+You either know your truth—or you wait for recovery.
+
+---
+
+## 📜 License
+
+MIT License © 2025 Dr. Joe Truax and community contributors.
+
+---
+
+## 🧪 Future Additions
+
+* Argon2id → hybrid with hardware-based attestation keys
+* Formal zero-knowledge verification layer
+* SOC2/ISO27001 compliance pipeline under `/infra/compliance`
+* Optional multi-modal enrollment (text + voice + gesture)
