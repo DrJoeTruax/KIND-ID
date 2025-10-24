@@ -47,3 +47,96 @@ Registers a new user descriptor.
   "phrase": "string",
   "device_id": "string"
 }
+
+Response
+
+{
+  "status": "success",
+  "descriptor_id": "UUID",
+  "message": "Descriptor created successfully."
+}
+
+POST /verify
+
+Validates a user login attempt.
+
+Request
+
+{
+  "username": "string",
+  "phrase": "string"
+}
+
+
+Response
+
+{
+  "status": "verified",
+  "confidence": 0.9992,
+  "timestamp": "2025-10-24T00:00:00Z"
+}
+
+GET /health
+
+Health check endpoint. Returns server operational metrics.
+
+Response
+
+{
+  "status": "ok",
+  "version": "1.0.0",
+  "uptime": "48h"
+}
+
+Error Codes
+Code	Meaning	Example
+400	Missing or invalid parameters	"Missing field: phrase"
+401	Unauthorized access	"Descriptor not verified"
+429	Rate limited	"Too many attempts"
+500	Internal error	"Unexpected exception"
+Webhook Integration
+Event	Description
+descriptor.created	Triggered when a new identity is registered.
+descriptor.verified	Triggered upon successful login validation.
+descriptor.failed	Triggered when verification fails.
+
+Example payload:
+
+{
+  "event": "descriptor.verified",
+  "user": "username",
+  "timestamp": "2025-10-24T00:00:00Z",
+  "confidence": 0.998
+}
+
+Response Metadata
+
+All responses contain:
+
+{
+  "meta": {
+    "api_version": "1.0.0",
+    "server_time": "UTC timestamp",
+    "request_id": "uuid"
+  }
+}
+
+Rate Limits
+
+Default limit: 60 requests/minute per IP.
+Exceeded requests return HTTP 429.
+
+Changelog Reference
+
+See CHANGELOG.md
+ for updates.
+
+© 2025 KIND-ID Project. MIT License.
+'@
+
+Set-Content -Path $docPath -Value $content -Encoding UTF8
+
+cd $base
+git add docs\API_REFERENCE.md
+git commit -m "docs: replace API_REFERENCE.md with full version" -m "Adds all endpoint, SDK, webhook, and error documentation for KIND-ID v1.0.0."
+git push -u origin main
