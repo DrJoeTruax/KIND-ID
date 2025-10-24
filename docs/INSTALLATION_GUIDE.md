@@ -1,4 +1,3 @@
-````
 # KIND-ID Installation Guide
 
 ### Version 1.0.0  
@@ -199,7 +198,3 @@ Run your OS installer to configure PATH variables and dependencies automatically
 ---
 
 © 2025 KIND-ID Project. MIT License.
-
-```
-```
-
