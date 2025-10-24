@@ -1,102 +1,83 @@
 # KIND-ID Changelog
 
-### Version: v1.0.0  
-### Updated: October 2025  
+### Version: v0.1.0  
+### Updated: 2025-10-24  
 
 ---
 
-## Purpose
-
-This document records the chronological evolution of the KIND-ID project, including new features, bug fixes, security patches, and governance updates.  
-All releases adhere to **Semantic Versioning (SemVer 2.0.0)** and are signed by maintainers via verified Git tags.
+## Overview
+This log documents the real initialization and build process of KIND-ID, starting with repository setup, file-system creation, and foundational documentation for the authentication framework.
 
 ---
 
-## [1.0.0] — 2025-10-24
+## [0.1.0] — 2025-10-24
 
 ### Added
-- Initial public release of the KIND-ID Authentication Framework.  
-- Python SDK with Argon2id-based descriptor generation.  
-- FastAPI server for secure verification.  
-- Chrome extension for in-browser phrase login.  
-- Full documentation suite (README, Installation Guide, API Reference, Security Model, Governance Charter, FAQ).  
-- Continuous Integration pipeline and unit test baseline.  
-- Open-source governance model and MIT licensing.
+- **Repository setup**:  
+  - Created folder structure at  
+    `C:\Users\fcp\Documents\Projects\KIND-ID\KIND-ID_BOX`.  
+  - Initialized Git repository and linked to  
+    [https://github.com/DrJoeTruax/KIND-ID](https://github.com/DrJoeTruax/KIND-ID).  
+  - Staged and committed initial structure.
 
-### Security
-- Implemented constant-time comparison in descriptor verification.  
-- Enforced HTTPS/TLS 1.3 across API endpoints.  
-- Added nonce and rate-limit enforcement (60 requests/min per IP).  
-- Configured automatic dependency scans via GitHub Actions.
+- **Core directories**:  
+  - `/docs`, `/kindid`, `/server`, `/extension`, `/tests`, `/installers`, `/.github/workflows`.
+
+- **Initial placeholder files**:  
+  - `README.md` (full project overview with cross-links).  
+  - `docs/API_REFERENCE.md` (SDK + endpoint documentation).  
+  - `docs/INSTALLATION_GUIDE.md` (step-by-step setup for SDK, FastAPI, and extension).  
+  - `docs/SECURITY_AND_THREAT_MODEL.md` (cryptographic and threat-mitigation framework).  
+  - `docs/GOVERNANCE_CHARTER.md` (project governance model).  
+  - `docs/FAQ.md` (core Q&A for setup, security, and contributions).  
+  - `docs/CHANGELOG.md` (this file).  
+  - `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `LICENSE`, `requirements.txt`, `setup.py`, `.github/workflows/ci.yml`.
+
+- **PowerShell automation**:  
+  - Created scripts to generate folder tree and placeholder files.  
+  - Added push commands for single-step Git commits and uploads.
+
+- **Documentation automation**:  
+  - README cross-links all documentation.  
+  - Extended commit message templates standardized.  
+
+### Environment
+- Windows 10/11, PowerShell.  
+- Python 3.11.  
+- Git CLI connected to GitHub.  
 
 ---
 
-## [0.9.0] — 2025-09-10
+## [0.0.1] — 2025-10-23 (Initialization)
 
 ### Added
-- Prototype SDK and test harness.  
-- Draft documentation and roadmap.  
-- Developer-only authentication simulator.  
-- CLI utilities for descriptor generation.  
-
-### Changed
-- Migrated from bcrypt to Argon2id.  
-- Consolidated FastAPI server routes for consistency.
-
----
-
-## [0.8.2] — 2025-08-03
-
-### Fixed
-- Compatibility issue with Windows line endings in test harness.  
-- Incorrect hash length causing verification mismatch on certain devices.
+- Concept approval and definition of **KIND-ID** as a “Multi-Truth Authentication” system.  
+- Defined **technical purpose**: secure identity through phrase-based verification and multimodal expression inputs.  
+- Discussed transparent repository architecture and commit handling via automation.  
+- Established development workflow:  
+  - PowerShell-based local initialization.  
+  - Vercel and GitHub deployment pipeline planned.  
+  - Immediate commitment to full documentation and transparency.  
 
 ---
 
-## [0.8.0] — 2025-07-15
-
-### Added
-- Alpha version of Chrome extension (phrase recorder).  
-- Local descriptor encryption (AES-256-GCM).  
-- Server health check endpoint (`/health`).
-
----
-
-## [0.7.0] — 2025-06-01
-
-### Added
-- Repository scaffolding with modular architecture.  
-- Integration with GitHub Actions.  
-- Initial setup for Governance and Security documentation.  
-
----
-
-## Upcoming Milestones
+## Next Planned Milestones
 
 | Version | Target Date | Planned Additions |
 |----------|--------------|-------------------|
-| **1.1.0** | Q1 2026 | MFA + biometric fallback |
-| **1.2.0** | Q2 2026 | OAuth/SSO integration |
-| **1.3.0** | Q3 2026 | Encrypted backup & recovery |
-| **2.0.0** | 2027 | Hardware token & TEE integration |
+| **0.2.0** | Oct 25 2025 | Add SDK codebase and FastAPI endpoints |
+| **0.3.0** | Oct 26 2025 | Integrate Chrome extension + SDK linking |
+| **0.4.0** | Oct 27 2025 | Add unit tests, CI/CD actions |
+| **0.5.0** | Oct 28 2025 | Release fully functional authentication demo |
 
 ---
 
-## Governance & Verification
-
-Each release is verified via:
-- Signed Git tag by at least two maintainers.  
-- CI/CD build artifact checksum.  
-- Updated threat model validation.  
-- Public changelog announcement.
-
----
-
-## Historical Context
-
-KIND-ID originated as part of the **Legacies of Men** initiative led by Dr. Joe Truax, evolving into a universal framework for empathy-based authentication.  
-The name reflects its goal: to make digital identity kind, transparent, and human again.
+## Notes
+- This changelog reflects factual build events verified from local PowerShell and Git actions.  
+- All changes are real and performed manually or via scripts created during the session.  
+- No previous versions exist; this repository began October 23–24 2025.
 
 ---
 
 © 2025 KIND-ID Project. MIT License.
+Would you like me to automatically generate the PowerShell script that writes this file, commits it with the correct extended message, and pushes it to GitHub?
